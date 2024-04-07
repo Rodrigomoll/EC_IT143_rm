@@ -1,0 +1,28 @@
+
+---SIMPSONS DATABASE
+
+  SELECT TOP (1) [Status], COUNT(*) AS Frequency
+FROM [Simpsons].[dbo].[FBS_Viza_Costmo]
+GROUP BY [Status]
+ORDER BY COUNT(*) DESC;
+
+------------------------------------------------------------------------------------------------------
+
+SELECT YEAR([Date]) AS Transaction_Year, SUM([Debit]) AS Total_Debit, SUM([Credit]) AS Total_Credit
+FROM [Simpsons].[dbo].[FBS_Viza_Costmo]
+GROUP BY YEAR([Date])
+ORDER BY Transaction_Year;
+
+----------------------------------------------------------------------------------------------------------
+
+SELECT TOP (1) [Description], COUNT(*) AS Frequency
+FROM [Simpsons].[dbo].[FBS_Viza_Costmo]
+GROUP BY [Description]
+ORDER BY COUNT(*) DESC;
+
+------------------------------------------------------------------------------------------------------------
+
+SELECT [Card_Member], COUNT(*) AS Transaction_Count
+FROM [Simpsons].[dbo].[Planet_Express]
+GROUP BY [Card_Member]
+ORDER BY Transaction_Count DESC;

@@ -1,0 +1,26 @@
+
+
+---MyFC DATABASE
+
+  SELECT SUM(mtd_salary) AS Total_Monthly_Salary_Expenditure
+FROM [MyFC].[dbo].[tblPlayerFact];
+
+-----------------------------------------------------------------------
+
+SELECT [t_code] AS Team_Code, COUNT(*) AS Player_Count
+FROM [MyFC].[dbo].[tblPlayerDim]
+GROUP BY [t_code];
+
+-------------------------------------------------------------------------
+
+SELECT [p_name] AS Position_Name, AVG([pl_num]) AS Average_Performance_Rating
+FROM [MyFC].[dbo].[tblPlayerDim]
+GROUP BY [p_name];
+
+---------------------------------------------------------------------------
+
+SELECT 
+    SUM(CASE WHEN YEAR([as_of_date]) = YEAR(GETDATE()) THEN [mtd_salary] ELSE 0 END) AS Total_Salary_Current_Year,
+    SUM(CASE WHEN YEAR([as_of_date]) = YEAR(GETDATE()) - 1 THEN [mtd_salary] ELSE 0 END) AS Total_Salary_Previous_Year
+FROM [MyFC].[dbo].[tblPlayerFact]
+WHERE YEAR([as_of_date]) IN (YEAR(GETDATE()), YEAR(GETDATE()) - 1);
