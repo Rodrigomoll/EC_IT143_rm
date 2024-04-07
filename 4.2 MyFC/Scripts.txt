@@ -1,0 +1,50 @@
+---Q: What are the first thousand values from the table dbo.tblPlayerDim
+
+-- A: Let's ask SQL Server and find out...
+
+
+SELECT TOP (1000) [pl_id]
+      ,[l_name]
+      ,[f_name]
+      ,[pl_name]
+      ,[t_id]
+      ,[p_id]
+      ,[pl_num]
+  FROM [MyFC].[dbo].[tblPlayerDim]
+
+
+---Let's create a view based in our query
+
+CREATE VIEW dbo.v_PlayerDim AS
+SELECT TOP (1000) [pl_id]
+      ,[l_name]
+      ,[f_name]
+      ,[pl_name]
+      ,[t_id]
+      ,[p_id]
+      ,[pl_num]
+FROM [MyFC].[dbo].[tblPlayerDim];
+
+---Convert the view into a table 
+
+SELECT * INTO dbo.t_PlayerDim FROM dbo.v_PlayerDim;
+
+
+---Create the Stored Procedure
+CREATE PROCEDURE dbo.usp_LoadPlayerDim1
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    TRUNCATE TABLE dbo.t_PlayerDim;
+
+    INSERT INTO dbo.t_PlayerDim
+    SELECT TOP (1000) * FROM dbo.v_PlayerDim;
+END;
+
+
+---Call the Stored Procedure
+
+EXEC dbo.usp_LoadPlayerDim1;
+
+

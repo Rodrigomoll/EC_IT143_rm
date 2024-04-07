@@ -1,0 +1,93 @@
+---Q: What are the data from the user with "Member_ID" iguala a 1.00
+
+---A: Let's ask to our database
+
+SELECT [Member_ID]
+      ,[Name]
+      ,[First_Name]
+      ,[Middle_Name]
+      ,[Last_Name]
+      ,[Job_Title]
+      ,[Status]
+      ,[Hire_Date]
+      ,[Termination_Date]
+      ,[Department_Code]
+      ,[Department]
+      ,[Home_Address]
+      ,[Birth_Date]
+      ,[Manager]
+FROM [Simpsons].[dbo].[Family_Data]
+WHERE [Member_ID] = 1.00;
+
+
+------------------------------View
+
+CREATE VIEW dbo.v_FamilyData_Member1 AS
+SELECT [Member_ID]
+      ,[Name]
+      ,[First_Name]
+      ,[Middle_Name]
+      ,[Last_Name]
+      ,[Job_Title]
+      ,[Status]
+      ,[Hire_Date]
+      ,[Termination_Date]
+      ,[Department_Code]
+      ,[Department]
+      ,[Home_Address]
+      ,[Birth_Date]
+      ,[Manager]
+FROM [Simpsons].[dbo].[Family_Data]
+WHERE [Member_ID] = 1.00;
+
+
+CREATE TABLE dbo.t_FamilyData_Member1 (
+    [Member_ID] INT,
+    [Name] NVARCHAR(100),
+    [First_Name] NVARCHAR(50),
+    [Middle_Name] NVARCHAR(50),
+    [Last_Name] NVARCHAR(50),
+    [Job_Title] NVARCHAR(100),
+    [Status] NVARCHAR(50),
+    [Hire_Date] DATE,
+    [Termination_Date] DATE,
+    [Department_Code] NVARCHAR(50),
+    [Department] NVARCHAR(100),
+    [Home_Address] NVARCHAR(200),
+    [Birth_Date] DATE,
+    [Manager] NVARCHAR(100)
+);
+
+
+DROP PROCEDURE IF EXISTS dbo.usp_LoadFamilyData_Member1;
+
+CREATE PROCEDURE dbo.usp_LoadFamilyData_Member1
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Verificar si la tabla existe
+    IF OBJECT_ID('dbo.t_FamilyData_Member1', 'U') IS NOT NULL
+    BEGIN
+        -- Vaciar la tabla
+        TRUNCATE TABLE dbo.t_FamilyData_Member1;
+
+        -- Insertar datos en la tabla desde la vista v_FamilyData_Member1
+        INSERT INTO dbo.t_FamilyData_Member1
+        SELECT *
+        FROM dbo.v_FamilyData_Member1;
+
+        -- Mostrar el valor de Member_ID
+        SELECT [Member_ID] FROM dbo.v_FamilyData_Member1;
+    END
+    ELSE
+    BEGIN
+        PRINT 'La tabla dbo.t_FamilyData_Member1 no existe.';
+    END
+END;
+
+
+EXEC dbo.usp_LoadFamilyData_Member1;
+
+
+
